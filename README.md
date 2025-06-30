@@ -133,6 +133,38 @@ docker build -t ytbot .
 docker run -d --name youtube-bot --restart unless-stopped ytbot
 ```
 
+## 🚀 Развёртывание на Render.com
+
+1. **Форкните или загрузите проект на GitHub.**
+2. **Создайте сервис на Render.com:**
+   - Зайдите на https://dashboard.render.com и выберите "New Web Service".
+   - Подключите ваш репозиторий.
+   - В настройках выберите:
+     - Environment: **Python 3.11**
+     - Build Command: `pip install -r requirements.txt`
+     - Start Command: `python bot.py`
+   - В разделе "Environment" добавьте переменные:
+     - `TELEGRAM_TOKEN` — ваш токен Telegram-бота
+     - (опционально) другие переменные из config.py
+3. **FFmpeg:**
+   - Render поддерживает установку пакетов через Apt. В настройках добавьте файл `render.yaml` (см. ниже).
+
+### Пример файла render.yaml
+```yaml
+services:
+  - type: web
+    name: youtubevideodownloader
+    env: python
+    buildCommand: "apt-get update && apt-get install -y ffmpeg && pip install -r requirements.txt"
+    startCommand: "python bot.py"
+    envVars:
+      - key: TELEGRAM_TOKEN
+        value: <ваш_токен>
+```
+
+4. **Загрузите файл `render.yaml` в корень проекта.**
+5. **Деплойте!** После деплоя бот будет работать автоматически.
+
 ## 📱 Использование
 
 1. Найдите бота в Telegram по имени или ссылке
