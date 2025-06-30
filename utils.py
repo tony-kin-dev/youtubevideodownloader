@@ -5,6 +5,8 @@ import yt_dlp
 import os
 import uuid
 
+COOKIES_PATH = os.getenv("COOKIES_PATH", "/etc/secrets/cookies.txt")
+
 def download_video(url, quality, filetype, progress_callback=None):
     filename = f"video_{uuid.uuid4().hex}.{filetype}"
     
@@ -14,6 +16,9 @@ def download_video(url, quality, filetype, progress_callback=None):
         'outtmpl': filename,
         'noplaylist': True,
     }
+    
+    if os.path.exists(COOKIES_PATH):
+        ydl_opts['cookies'] = COOKIES_PATH
     
     if progress_callback:
         def hook(d):
@@ -47,6 +52,9 @@ def extract_audio(url, progress_callback=None):
         'outtmpl': filename.replace('.mp3', '.%(ext)s'),
         'noplaylist': True,
     }
+    
+    if os.path.exists(COOKIES_PATH):
+        ydl_opts['cookies'] = COOKIES_PATH
     
     if progress_callback:
         def hook(d):
