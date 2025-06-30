@@ -65,7 +65,7 @@ audio_*.mp3
 *.mp3
 
 # Config with secrets (optional)
-# config.py
+config.py
 
 # Temporary files
 *.tmp

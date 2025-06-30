@@ -155,7 +155,8 @@ def download_and_send(user_id, chat_id, url, choice, message_id, lang):
             bot.send_document(chat_id, f, visible_file_name=os.path.basename(filename))
         # Сохраняем путь к файлу в кэш (на 1 час)
         cache_request(user_id, url + cache_key, filename)
-        # Не удаляем файл, чтобы кэш работал
+        # Если кэш не используется, удаляем файл после отправки
+        os.remove(filename)
     except Exception as e:
         print(e)
         bot.send_message(chat_id, LOCALES[lang]['download_fail'])
